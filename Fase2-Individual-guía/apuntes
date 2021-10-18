@@ -1,0 +1,17 @@
+#Pasos antes de comprobar, que los syd són distintos a las dos máquinas (en cmd)->no va lo he comprobado
+PsGetsid64.exe
+#Si són distintos bien, si són iguales al realizar la realación de confianza, va a dar erro.
+# Desactivar el Firewal de Windows para no tener problemas
+#Cosa importante comprobar la IP de los equipos, deberían de estar an le misma subred 192.24.81.254 encima de la máscara de subred:
+ipconfig
+#Queremos
+
+#
+
+#
+
+#
+
+#
+
+#
