@@ -4,14 +4,38 @@ PsGetsid64.exe
 # Desactivar el Firewal de Windows para no tener problemas
 #Cosa importante comprobar la IP de los equipos, deberían de estar an le misma subred 192.24.81.254 encima de la máscara de subred:
 ipconfig
-#Queremos
+*Instalar un dominio básico:
+Install-WindowsFeature  - nombre AD - Dominio - Servicios , DNS - IncludeManagementTools
+Get-Command  - módulo ADDSDeployment
 
-#
+$ dominioFQDN  =  " edu-gva.es "
+$ dominioNETBIOS  =  " EDU-GVA "
+$ adminPass  =  " Sv21nc-4e "
+Módulo de importación ADDSDeployment
+Instalar-ADDSForest  `
+- CreateDnsDelegation: $ False  `
+- Ruta de base de datos " C: \ Windows \ NTDS "  `
+- DomainMode " Predeterminado "  `
+- NombreDominio $ dominioFQDN  `
+- DomainNetbiosName $ dominioNETBIOS  `
+- SafeModeAdministratorPassword ( ConvertTo-SecureString  - cadena $ adminPass  - AsPlainText - Force) `
+- ForestMode " Predeterminado "  `
+- InstallDns: $ True  `
+- Ruta de registro " C: \ Windows \ NTDS "  `
+- NoRebootOnCompletion: $ False  `
+- SysvolPath " C: \ Windows \ SYSVOL "  `
+- Fuerza: $ verdadero 
 
-#
+*Crear en PowerShell un sript en LAUDE Bristish-Scchool-VillaReal.
+1.
 
-#
 
-#
 
-#
+#Añadir en Powershell el nuevo servidor DNS de LAUDE British School.
+Add-DnsServerConditionalForwarderZone -Name "LauderBritishSchool.es" -MasterServers 192.168.1.201 -ReplicationScope Forest
+*Como degradar un controlador de domininio
+1.Vamos a PowerSheell
+2.Import-Module ADDSDeployment
+3.Uninstall-ADDSDomainController -DemoteOperationMasterRole:$true -ForceRemoval:$true -Force:$true
+4.Cuando ya se haya degrad y cerrado la sesión
+5. sconfig
